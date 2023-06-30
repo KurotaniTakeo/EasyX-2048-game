@@ -77,34 +77,24 @@ start:
 		default:
 			continue;
 		case 'w':
+		case 72:
 			move_up(array2048);
 			break;
 		case 's':
+		case 80:
 			move_down(array2048);
 			break;
 		case 'a':
+		case 75:
 			move_left(array2048);
 			break;
 		case 'd':
+		case 77:
 			move_right(array2048);
 			break;
 		case 'r':
 			max_score = max_score_temp;
 			goto start;
-			break;
-		case 75:
-			move_left(array2048);
-			break;
-		case 72:
-			move_up(array2048);
-			break;
-		case 77:
-			move_right(array2048);
-			break;
-		case 80:
-			move_down(array2048);
-			break;
-		
 		case 27:
 			goto exit;
 		}
