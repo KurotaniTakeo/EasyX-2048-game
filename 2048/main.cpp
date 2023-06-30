@@ -283,16 +283,21 @@ void generate_matrix(int** arr)
 //判断游戏是否输掉
 int check_lose(int** arr)
 {
-	int i, j;
-	for (i = 0; i < 4; i++)
+	for (int i = 0; i < 4; i++)
 	{
-		for (j = 0; j < 4; j++)
+		for (int j = 0; j < 4; j++)
 		{
 			if (arr[i][j] == 2048) //检查是否有2048，如果有2048，则游戏获胜
 			{
 				return 1;
 			}
-			else if (arr[i][j] == 0) //检查是否有0，如果有0，则游戏继续
+		}
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			if (arr[i][j] == 0) //检查是否有0，如果有0，则游戏继续
 			{
 				return 0;
 			}
@@ -569,7 +574,7 @@ void score_GUI()
 	settextcolor(RGB(119, 110, 101));
 	settextstyle(&f);
 	setfillcolor(RGB(215, 206, 195));
-	solidroundrect(595, 67.5, 755, 118, 20, 20);
+	solidroundrect(595, 67.5, 755, 118, 15,15);
 	TCHAR s[10];
 	_stprintf_s(s, _T("%d"), score);
 	drawtext(s, &pos, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
@@ -586,7 +591,7 @@ void max_score_GUI()
 	settextcolor(RGB(119, 110, 101));
 	settextstyle(&f);
 	setfillcolor(RGB(215, 206, 195));
-	solidroundrect(595, 193, 755, 243.5, 20, 20);
+	solidroundrect(595, 193, 755, 243.5, 15,15);
 	TCHAR s[10];
 	_stprintf_s(s, _T("%d"), max_score);
 	drawtext(s, &pos, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
