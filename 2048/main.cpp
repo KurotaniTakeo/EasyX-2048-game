@@ -12,7 +12,7 @@ void initail_coordinates(int* x1, int* y1, int* x2, int* y2);
 int generate_number();
 void generate_matrix(int** array);
 int check_lose(int** board);
-void new_block(int** array);
+void new_tile(int** array);
 void move_up(int** array);
 void move_down(int** array);
 void move_left(int** array);
@@ -102,7 +102,7 @@ start:
 		check_lose(array2048);
 		if (!check_same(array2048))
 		{
-			new_block(array2048);
+			new_tile(array2048);
 		}
 		generate_matrix(array2048);
 	}
@@ -312,7 +312,7 @@ int check_lose(int** arr)
 }
 
 //在空位置放置新方块
-void new_block(int** arr)
+void new_tile(int** arr)
 {
 	int x, y;
 	srand(time(NULL));
