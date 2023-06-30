@@ -8,40 +8,42 @@
 #include <string>
 using namespace std;
 
-void initail_coordinates(int* x1, int* y1, int* x2, int* y2);
-int generate_number();
-void generate_matrix(int** array);
-int check_lose(int** board);
-void new_tile(int** array);
-void move_up(int** array);
-void move_down(int** array);
-void move_left(int** array);
-void move_right(int** array);
-bool check_same(int** arr);
-void main_GUI();
+//函数
+void initail_coordinates(int** arr);
+void generate_matrix(int** arr);
+void new_tile(int** arr);
+void move_up(int** arr);
+void move_down(int** arr);
+void move_left(int** arr);
+void move_right(int** arr);
+void main_GUI();	
 void score_GUI();
 void max_score_GUI();
 void fail_GUI();
 void win_GUI();
 
+int generate_number();
+int check_lose(int** board);
 
-int score = 0;
+bool check_same(int** arr);
+
+//全局变量
+int score;
 int max_score = 0;
 int check[4][4];
+
 
 int main()
 {
 start:
-	/*绘制基础GUI*/
+	//绘制基础GUI
 	main_GUI();
-
-	/*初始化游戏内容*/
 	score = 0;
 	score_GUI();
 	max_score_GUI();
 
+	/*初始化游戏内容*/
 	int max_score_temp = max_score;
-
 	int** array2048 = (int**)malloc(sizeof(int**) * 4);
 	for (int i = 0;i < 4;i++)
 	{
@@ -54,10 +56,7 @@ start:
 			array2048[i][j] = 0;
 		}
 	}
-	int init1x, init1y, init2x, init2y;
-	initail_coordinates(&init1x, &init1y, &init2x, &init2y); //初始选择两点
-	array2048[init1y][init1x] = generate_number();
-	array2048[init2y][init2x] = generate_number();
+	initail_coordinates(array2048);
 	generate_matrix(array2048);
 
 	/*开始游戏*/
@@ -151,15 +150,18 @@ exit:
 }
 
 //生成初始坐标
-void initail_coordinates(int* x1, int* y1, int* x2, int* y2)
+void initail_coordinates(int** arr)
 {
+	int x1, y1, x2, y2;
 	srand(time(NULL));
-	*x1 = rand() % 4;
-	*y1 = rand() % 4;
+	x1 = rand() % 4;
+	y1 = rand() % 4;
 	do {
-		*x2 = rand() % 4;
-		*y2 = rand() % 4;
-	} while (*x1 == *x2 && *y1 == *y2);
+		x2 = rand() % 4;
+		y2 = rand() % 4;
+	} while (x1 == x2 && y1 == y2);
+	arr[y1][x1] = generate_number();
+	arr[y2][x2] = generate_number();
 }
 
 //生成数字（10%可能性为4,90%可能性为2）
@@ -493,7 +495,7 @@ bool check_same(int** arr)
 	return TRUE;
 }
 
-//GUI背景等
+//初始化GUI等
 void main_GUI()
 {
 	initgraph(800, 620);
