@@ -94,9 +94,6 @@ start:
 			break;
 		case 27:
 			goto exit;
-		case 'l':
-			goto win;
-			break;
 		}
 		if (score > max_score)
 			max_score = score;
@@ -131,7 +128,6 @@ start:
 	{
 		while (1)
 		{
-win:
 			win_GUI();
 			char c = _getch();
 			switch (c)
