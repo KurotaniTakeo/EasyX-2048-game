@@ -280,7 +280,7 @@ void generate_matrix(int** arr)
 				break;
 			}
 			settextstyle(&f);
-			TCHAR num[4];
+			TCHAR num[5];
 			_stprintf_s(num, _T("%d"), arr[y][x]);
 			if (arr[y][x] != 0)
 				drawtext(num, &pos, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
