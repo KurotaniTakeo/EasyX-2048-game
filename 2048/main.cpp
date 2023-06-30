@@ -92,6 +92,19 @@ start:
 			max_score = max_score_temp;
 			goto start;
 			break;
+		case 75:
+			move_left(array2048);
+			break;
+		case 72:
+			move_up(array2048);
+			break;
+		case 77:
+			move_right(array2048);
+			break;
+		case 80:
+			move_down(array2048);
+			break;
+		
 		case 27:
 			goto exit;
 		}
@@ -521,7 +534,7 @@ void main_GUI()
 	solidroundrect(595, 487.5, 650, 542.5, 15, 15);
 	solidroundrect(595, 407.5, 650, 462.5, 15, 15);
 	solidroundrect(595, 327.5, 650, 382.5, 15, 15);
-	RECT wasd_pos = { 595, 327.5, 650, 382.5 };
+	RECT wasd_pos = { 595, 335, 650, 382.5 };
 	RECT restart_pos = { 595, 407.5, 650, 462.5 };
 	RECT esc_pos = { 595, 487.5, 650, 542.5 };
 	f.lfWeight = FW_BOLD;
@@ -532,7 +545,7 @@ void main_GUI()
 	drawtext(_T("R"), &restart_pos, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 	f.lfHeight = 20;
 	settextstyle(&f);
-	drawtext(_T("WASD"), &wasd_pos, DT_CENTER | DT_VCENTER | DT_WORDBREAK | DT_SINGLELINE);
+	drawtext(_T("WASD↑↓←→"), &wasd_pos, DT_CENTER | DT_VCENTER | DT_WORDBREAK);
 	settextcolor(RGB(238, 228, 218));
 	RECT wasd_text = { 650, 327.5, 755, 382.5 };
 	RECT restart_text = { 650, 407.5, 755, 462.5 };
