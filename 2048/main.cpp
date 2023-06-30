@@ -16,7 +16,7 @@ void move_up(int** arr);
 void move_down(int** arr);
 void move_left(int** arr);
 void move_right(int** arr);
-void main_GUI();	
+void main_GUI();
 void score_GUI();
 void max_score_GUI();
 void fail_GUI();
@@ -102,7 +102,7 @@ start:
 		score_GUI();
 		max_score_GUI();
 		check_lose(array2048);
-		if (!check_same(array2048))
+		if (check_same(array2048))
 		{
 			new_tile(array2048);
 		}
@@ -488,11 +488,11 @@ bool check_same(int** arr)
 		{
 			if (arr[i][j] != check[i][j])
 			{
-				return FALSE;
+				return TRUE;
 			}
 		}
 	}
-	return TRUE;
+	return FALSE;
 }
 
 //初始化GUI等
@@ -569,7 +569,7 @@ void score_GUI()
 	settextcolor(RGB(119, 110, 101));
 	settextstyle(&f);
 	setfillcolor(RGB(215, 206, 195));
-	solidroundrect(587.5, 67.5, 762.5, 125.5, 20, 20);
+	solidroundrect(595, 67.5, 755, 118, 20, 20);
 	TCHAR s[10];
 	_stprintf_s(s, _T("%d"), score);
 	drawtext(s, &pos, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
@@ -586,7 +586,7 @@ void max_score_GUI()
 	settextcolor(RGB(119, 110, 101));
 	settextstyle(&f);
 	setfillcolor(RGB(215, 206, 195));
-	solidroundrect(587.5, 193, 762.5, 251, 20, 20);
+	solidroundrect(595, 193, 755, 243.5, 20, 20);
 	TCHAR s[10];
 	_stprintf_s(s, _T("%d"), max_score);
 	drawtext(s, &pos, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
