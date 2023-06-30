@@ -9,7 +9,7 @@
 using namespace std;
 
 //函数
-void initail_coordinates(int** arr);
+void initial_coordinates(int** arr);
 void generate_matrix(int** arr);
 void new_tile(int** arr);
 void move_up(int** arr);
@@ -56,7 +56,7 @@ start:
 			array2048[i][j] = 0;
 		}
 	}
-	initail_coordinates(array2048);
+	initial_coordinates(array2048);
 	generate_matrix(array2048);
 
 	/*开始游戏*/
@@ -150,7 +150,7 @@ exit:
 }
 
 //生成初始坐标
-void initail_coordinates(int** arr)
+void initial_coordinates(int** arr)
 {
 	int x1, y1, x2, y2;
 	srand(time(NULL));
