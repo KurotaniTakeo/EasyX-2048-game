@@ -267,7 +267,7 @@ void generate_matrix(int** arr)
 			case 2048:
 				f.lfHeight = 58;
 				setfillcolor(RGB(237, 194, 46));
-				settextcolor(RGB(119, 110, 101));
+				settextcolor(RGB(249, 246, 242));
 				solidroundrect(x * 125 + 50, y * 125 + 50, x * 125 + 162.5, y * 125 + 162.5, 20, 20);
 				break;
 			}
