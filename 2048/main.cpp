@@ -41,11 +41,13 @@ int main()
 {
 start:
 	//绘制基础GUI
-	FILE* create = fopen("maxscore.txt", "a");//如果没有文件则创建文件
-	fclose(create);
-	FILE* max_record_open = fopen("maxscore.txt", "r+");//读取文件
+	FILE* max_record_open = fopen("maxscore.txt", "r");//读取文件
+	if (max_record_open == NULL) {
+		max_record_open = fopen("maxscore.txt", "w");//如果没有文件则创建文件
+		max_record_open = fopen("maxscore.txt", "r");
+	}
 	fscanf(max_record_open, "%d", &max_score);
-	FILE* max_record_edit = fopen("maxscore.txt", "w");//清空并写入文件
+	
 	score = 0;
 	main_GUI();
 
@@ -121,6 +123,9 @@ start:
 		{
 			fail_GUI();//显示失败GUI
 			char c = _getch();
+			FILE* max_record_edit = fopen("maxscore.txt", "w");//清空并写入文件
+			fprintf(max_record_edit, "%d", max_score);//在文件中记录最高分数
+			fclose(max_record_edit);
 			switch (c)
 			{
 			default:
@@ -139,6 +144,9 @@ start:
 		{
 			win_GUI();//显示获胜GUI
 			char c = _getch();
+			FILE* max_record_edit = fopen("maxscore.txt", "w");//清空并写入文件
+			fprintf(max_record_edit, "%d", max_score);//在文件中记录最高分数
+			fclose(max_record_edit);
 			switch (c)
 			{
 			default:
@@ -153,8 +161,6 @@ start:
 	}
 exit:
 	free(array2048);//释放内存
-	fprintf(max_record_edit, "%d", max_score);//在文件中记录最高分数
-	fclose(max_record_edit);
 	fclose(max_record_open);
 	exit(0);
 }
