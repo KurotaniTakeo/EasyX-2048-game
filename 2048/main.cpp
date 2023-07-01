@@ -1,4 +1,6 @@
-﻿#include <stdio.h>
+﻿#define _CRT_SECURE_NO_WARNINGS 0
+
+#include <stdio.h>
 #include <stdlib.h>
 #include <graphics.h>
 #include <conio.h>
@@ -39,10 +41,13 @@ int main()
 {
 start:
 	//绘制基础GUI
-	main_GUI();
+	FILE* create = fopen("maxscore.txt", "a");//如果没有文件则创建文件
+	fclose(create);
+	FILE* max_record_open = fopen("maxscore.txt", "r+");//读取文件
+	fscanf(max_record_open, "%d", &max_score);
+	FILE* max_record_edit = fopen("maxscore.txt", "w");//清空并写入文件
 	score = 0;
-	score_GUI();
-	max_score_GUI();
+	main_GUI();
 
 	//初始化游戏内容
 	int max_score_temp = max_score;//存储当前最高分数信息
@@ -148,6 +153,9 @@ start:
 	}
 exit:
 	free(array2048);//释放内存
+	fprintf(max_record_edit, "%d", max_score);//在文件中记录最高分数
+	fclose(max_record_edit);
+	fclose(max_record_open);
 	exit(0);
 }
 
@@ -187,7 +195,7 @@ void generate_matrix(int** arr)
 		for (int x = 0;x < 4;x++)
 		{
 			setfillcolor(RGB(205, 193, 180));
-			solidroundrect(x * 125 + 50, y * 125 + 50, x * 125 + 162.5, y * 125 + 162.5, 20, 20);
+			solidroundrect(x * 125 + 50, y * 125 + 50, x * 125 + 162.5, y * 125 + 162.5, 20, 20);//每个方块底色的绘制
 		}
 	}
 	for (int y = 0;y < 4;y++)
@@ -201,7 +209,7 @@ void generate_matrix(int** arr)
 			f.lfWeight = FW_ULTRABOLD;
 			setbkmode(TRANSPARENT);
 
-			switch (arr[y][x])
+			switch (arr[y][x])//每种方块的方块颜色、文字颜色、文字大小等信息
 			{
 			default:
 				setfillcolor(RGB(205, 193, 180));
@@ -277,7 +285,7 @@ void generate_matrix(int** arr)
 			TCHAR num[5];
 			_stprintf_s(num, _T("%d"), arr[y][x]);
 			if (arr[y][x] != 0)
-				drawtext(num, &pos, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+				drawtext(num, &pos, DT_CENTER | DT_VCENTER | DT_SINGLELINE);//绘制文字
 		}
 	}
 }
@@ -331,7 +339,7 @@ void new_tile(int** arr)
 	do {
 		x = rand() % 4;
 		y = rand() % 4;
-	} while (arr[y][x] != 0);
+	} while (arr[y][x] != 0);//重复随机一个坐标，直到该坐标生成的位置为一个空方块为止
 	arr[y][x] = generate_number();
 }
 
@@ -348,9 +356,9 @@ void move_up(int** arr)
 					continue;
 				if (arr[k][j] == arr[i][j])
 				{
-					arr[k][j] = 0;
+					arr[k][j] = 0;//合并
 					arr[i][j] *= 2;
-					score += arr[i][j];
+					score += arr[i][j];//计算分数
 					break;
 				}
 				else if (arr[k][j] != arr[i][j])
@@ -362,7 +370,7 @@ void move_up(int** arr)
 		{
 			if (arr[i][j] != 0)
 			{
-				arr[l++][j] = arr[i][j];
+				arr[l++][j] = arr[i][j];//滑动
 			}
 		}
 		while (l < 4) {
@@ -518,12 +526,12 @@ void main_GUI()
 	RECT max_score_pos = { 587.5, 168, 762.5, 251 };
 	LOGFONT f;
 	gettextstyle(&f);
-	f.lfHeight = 25;						// 设置字体大小
-	settextcolor(RGB(238, 228, 218));       // 设置字体颜色
-	_tcscpy_s(f.lfFaceName, _T("微软雅黑")); // 设置字体为微软雅黑
-	f.lfQuality = ANTIALIASED_QUALITY;		// 设置输出效果为抗锯齿 
-	setbkmode(TRANSPARENT);                 // 去掉文字背景
-	settextstyle(&f);						// 设置字体样式
+	f.lfHeight = 25;// 设置字体大小
+	settextcolor(RGB(238, 228, 218));// 设置字体颜色
+	_tcscpy_s(f.lfFaceName, _T("微软雅黑"));// 设置字体为微软雅黑
+	f.lfQuality = ANTIALIASED_QUALITY;// 设置输出效果为抗锯齿 
+	setbkmode(TRANSPARENT);// 去掉文字背景
+	settextstyle(&f);// 设置字体样式
 	drawtext(_T("SCORE"), &score_pos, DT_CENTER | DT_SINGLELINE);
 	drawtext(_T("BEST"), &max_score_pos, DT_CENTER | DT_SINGLELINE);
 	solidroundrect(587.5, 480, 762.5, 550, 20, 20);
@@ -563,6 +571,8 @@ void main_GUI()
 	f.lfHeight = 30;
 	settextstyle(&f);
 	drawtext(_T("Join numbers to get to the 2048 tile!"), &op_guide, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	score_GUI();
+	max_score_GUI();
 }
 
 //得分GUI
