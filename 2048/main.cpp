@@ -16,6 +16,8 @@ void move_up(int** arr);
 void move_down(int** arr);
 void move_left(int** arr);
 void move_right(int** arr);
+
+//GUI绘制
 void main_GUI();
 void score_GUI();
 void max_score_GUI();
@@ -42,9 +44,9 @@ start:
 	score_GUI();
 	max_score_GUI();
 
-	/*初始化游戏内容*/
-	int max_score_temp = max_score;
-	int** array2048 = (int**)malloc(sizeof(int**) * 4);
+	//初始化游戏内容
+	int max_score_temp = max_score;//存储当前最高分数信息
+	int** array2048 = (int**)malloc(sizeof(int**) * 4);//创建二维数组
 	for (int i = 0;i < 4;i++)
 	{
 		array2048[i] = (int*)malloc(sizeof(int) * 4);
@@ -56,63 +58,63 @@ start:
 			array2048[i][j] = 0;
 		}
 	}
-	initial_coordinates(array2048);
-	generate_matrix(array2048);
+	initial_coordinates(array2048);//创建两个新方块
+	generate_matrix(array2048);//绘制16个方块
 
-	/*开始游戏*/
+	//开始游戏
 	while (check_lose(array2048) == 0)
 	{
 		for (int i = 0;i < 4;i++)
 		{
 			for (int j = 0;j < 4;j++)
 			{
-				check[i][j] = array2048[i][j];
+				check[i][j] = array2048[i][j];//将数组复制一份以便之后检查数组前后是否相同
 			}
 		}
 		char c;
-		c = _getch();
+		c = _getch();//获取键盘信息
 		switch (c)
 		{
 		default:
 			continue;
 		case 'w':
 		case 72:
-			move_up(array2048);
+			move_up(array2048);//向上滑动
 			break;
 		case 's':
 		case 80:
-			move_down(array2048);
+			move_down(array2048);//向下滑动
 			break;
 		case 'a':
 		case 75:
-			move_left(array2048);
+			move_left(array2048);//向左滑动
 			break;
 		case 'd':
 		case 77:
-			move_right(array2048);
+			move_right(array2048);//向右滑动
 			break;
 		case 'r':
-			max_score = max_score_temp;
+			max_score = max_score_temp;//重置游戏
 			goto start;
 		case 27:
-			goto exit;
+			goto exit;//退出游戏
 		}
 		if (score > max_score)
 			max_score = score;
-		score_GUI();
-		max_score_GUI();
+		score_GUI();//重新显示分数
+		max_score_GUI();//重新显示最高分
 		check_lose(array2048);
-		if (check_same(array2048))
+		if (check_same(array2048))//检查数组前后是否相同
 		{
-			new_tile(array2048);
+			new_tile(array2048);//添加新方块
 		}
-		generate_matrix(array2048);
+		generate_matrix(array2048);//绘制
 	}
-	if (check_lose(array2048) == -1)
+	if (check_lose(array2048) == -1)//游戏失败
 	{
 		while (1)
 		{
-			fail_GUI();
+			fail_GUI();//显示失败GUI
 			char c = _getch();
 			switch (c)
 			{
@@ -120,9 +122,9 @@ start:
 				continue;
 				break;
 			case 'r':
-				goto start;
+				goto start;//重置游戏
 			case 27:
-				goto exit;
+				goto exit;//退出游戏
 			}
 		}
 	}
@@ -130,7 +132,7 @@ start:
 	{
 		while (1)
 		{
-			win_GUI();
+			win_GUI();//显示获胜GUI
 			char c = _getch();
 			switch (c)
 			{
@@ -138,14 +140,14 @@ start:
 				continue;
 				break;
 			case 'r':
-				goto start;
+				goto start;//重置游戏
 			case 27:
-				goto exit;
+				goto exit;//退出游戏
 			}
 		}
 	}
 exit:
-	free(array2048);
+	free(array2048);//释放内存
 	exit(0);
 }
 
@@ -154,26 +156,26 @@ void initial_coordinates(int** arr)
 {
 	int x1, y1, x2, y2;
 	srand(time(NULL));
-	x1 = rand() % 4;
+	x1 = rand() % 4;//随机生成两个不同的坐标
 	y1 = rand() % 4;
 	do {
 		x2 = rand() % 4;
 		y2 = rand() % 4;
 	} while (x1 == x2 && y1 == y2);
-	arr[y1][x1] = generate_number();
+	arr[y1][x1] = generate_number();//修改
 	arr[y2][x2] = generate_number();
 }
 
-//生成数字（10%可能性为4,90%可能性为2）
+//生成数字
 int generate_number()
 {
 	srand(time(NULL));
 	int r = rand() % 10;
 	if (r == 0) {
-		return 4;
+		return 4;//（10% 可能性为4） 
 	}
 	else {
-		return 2;
+		return 2;//(90 % 可能性为2)
 	}
 }
 
@@ -574,7 +576,7 @@ void score_GUI()
 	settextcolor(RGB(119, 110, 101));
 	settextstyle(&f);
 	setfillcolor(RGB(215, 206, 195));
-	solidroundrect(595, 67.5, 755, 118, 15,15);
+	solidroundrect(595, 67.5, 755, 118, 15, 15);
 	TCHAR s[10];
 	_stprintf_s(s, _T("%d"), score);
 	drawtext(s, &pos, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
@@ -591,7 +593,7 @@ void max_score_GUI()
 	settextcolor(RGB(119, 110, 101));
 	settextstyle(&f);
 	setfillcolor(RGB(215, 206, 195));
-	solidroundrect(595, 193, 755, 243.5, 15,15);
+	solidroundrect(595, 193, 755, 243.5, 15, 15);
 	TCHAR s[10];
 	_stprintf_s(s, _T("%d"), max_score);
 	drawtext(s, &pos, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
